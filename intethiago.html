@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <title>Jogo da Velha Futurista</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #0f172a;
+      color: #e2e8f0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 40px;
+    }
+
+    h1 {
+      margin-bottom: 10px;
+      color: #38bdf8;
+      text-shadow: 0 0 10px #0ea5e9;
+    }
+
+    #entrada-nomes {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 20px;
+      gap: 10px;
+    }
+
+    input {
+      padding: 8px 12px;
+      border: 1px solid #334155;
+      border-radius: 5px;
+      background-color: #1e293b;
+      color: #e2e8f0;
+      width: 250px;
+      text-align: center;
+    }
+
+    button {
+      padding: 10px 16px;
+      margin-top: 10px;
+      background-color: #38bdf8;
+      color: #0f172a;
+      font-weight: bold;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background-color: #0ea5e9;
+      transform: scale(1.05);
+    }
+
+    #tabuleiro {
+      display: grid;
+      grid-template-columns: repeat(3, 100px);
+      grid-template-rows: repeat(3, 100px);
+      gap: 5px;
+      margin-top: 20px;
+    }
+
+    .celula {
+      width: 100px;
+      height: 100px;
+      background-color: #1e293b;
+      font-size: 48px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      border: 2px solid #334155;
+      user-select: none;
+      color: #e2e8f0;
+      border-radius: 10px;
+      transition: background-color 0.3s;
+    }
+
+    .celula:hover {
+      background-color: #475569;
+    }
+
+    .celula.x {
+      color: #60a5fa;
+    }
+
+    .vencedora {
+      background-color: #a0ceea;
+      text-decoration: line-through;
+      color: #0f172a;
+    }
+
+    #mensagem {
+      margin-top: 20px;
+      font-size: 20px;
+      color: #f8fafc;
+    }
+
+    #placar {
+      margin-top: 20px;
+      font-weight: bold;
+      font-size: 18px;
+      color: #38bdf8;
+    }
+
+    #botoes {
+      margin-top: 15px;
+      display: none;
+      gap: 10px;
+    }
+
+    #botoes button {
+      margin: 5px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Jogo da Velha Futurista</h1>
+
+  <div id="entrada-nomes">
+    <input type="text" id="nomeX" placeholder="Nome do jogador X" />
+    <input type="text" id="nomeO" placeholder="Nome do jogador O" />
+    <button onclick="comecarJogo()">Começar</button>
+  </div>
+
+  <div id="tabuleiro"></div>
+  <div id="mensagem"></div>
+
+  <div id="placar" style="display: none;">
+    <span id="placarX">0</span> - <span id="placarO">0</span>
+  </div>
+
+  <div id="botoes">
+    <button onclick="jogarNovamente()">Jogar Novamente</button>
+    <button onclick="zerarJogo()">Zerar Jogo</button>
+  </div>
+
+  <script>
+    const tabuleiro = document.getElementById("tabuleiro");
+    const mensagem = document.getElementById("mensagem");
+    const botoes = document.getElementById("botoes");
+    const placarX = document.getElementById("placarX");
+    const placarO = document.getElementById("placarO");
+    const placar = document.getElementById("placar");
+
+    let jogadorAtual = "X";
+    let jogoAtivo = false;
+    let estado = ["", "", "", "", "", "", "", "", ""];
+    let nomes = { X: "", O: "" };
+    let pontos = { X: 0, O: 0 };
+
+    const vitorias = [
+      [0,1,2], [3,4,5], [6,7,8],
+      [0,3,6], [1,4,7], [2,5,8],
+      [0,4,8], [2,4,6]
+    ];
+
+    function checarVitoria() {
+      for (const [a, b, c] of vitorias) {
+        if (estado[a] && estado[a] === estado[b] && estado[a] === estado[c]) {
+          return { vencedor: estado[a], combinacao: [a, b, c] };
+        }
+      }
+      return estado.includes("") ? null : { vencedor: "Empate" };
+    }
+
+    function lidarClique(e) {
+      const index = e.target.dataset.index;
+      if (!jogoAtivo || estado[index]) return;
+
+      estado[index] = jogadorAtual;
+      e.target.textContent = jogadorAtual;
+      if (jogadorAtual === "X") e.target.classList.add("x");
+
+      const resultado = checarVitoria();
+      if (resultado) {
+        if (resultado.vencedor === "Empate") {
+          mensagem.textContent = "Empate!";
+        } else {
+          const vencedor = resultado.vencedor;
+          pontos[vencedor]++;
+          placarX.textContent = pontos.X;
+          placarO.textContent = pontos.O;
+
+          resultado.combinacao.forEach(i => {
+            const cel = document.querySelector(`.celula[data-index='${i}']`);
+            cel.classList.add("vencedora");
+          });
+
+          mensagem.textContent = `Jogador ${nomes[vencedor]} venceu!`;
+        }
+        jogoAtivo = false;
+      } else {
+        jogadorAtual = jogadorAtual === "X" ? "O" : "X";
+        mensagem.textContent = `Vez de: ${nomes[jogadorAtual]}`;
+      }
+    }
+
+    function iniciarTabuleiro() {
+      tabuleiro.innerHTML = "";
+      estado = ["", "", "", "", "", "", "", "", ""];
+      for (let i = 0; i < 9; i++) {
+        const celula = document.createElement("div");
+        celula.classList.add("celula");
+        celula.dataset.index = i;
+        celula.addEventListener("click", lidarClique);
+        tabuleiro.appendChild(celula);
+      }
+    }
+
+    function comecarJogo() {
+      const nomeX = document.getElementById("nomeX").value.trim();
+      const nomeO = document.getElementById("nomeO").value.trim();
+
+      if (!nomeX || !nomeO) {
+        alert("Preencha os nomes dos dois jogadores!");
+        return;
+      }
+
+      nomes = { X: nomeX, O: nomeO };
+      jogadorAtual = "X";
+      jogoAtivo = true;
+
+      iniciarTabuleiro();
+      mensagem.textContent = `Vez de: ${nomes[jogadorAtual]}`;
+      botoes.style.display = "flex";
+      placar.style.display = "block";
+    }
+
+    function jogarNovamente() {
+      iniciarTabuleiro();
+      jogadorAtual = "X";
+      jogoAtivo = true;
+      mensagem.textContent = `Vez de: ${nomes[jogadorAtual]}`;
+    }
+
+    function zerarJogo() {
+      pontos = { X: 0, O: 0 };
+      placarX.textContent = "0";
+      placarO.textContent = "0";
+      location.reload();
+    }
+  </script>
+</body>
+</html>

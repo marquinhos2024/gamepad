@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <title>Jogo da Cobrinha com Ranking</title>
+  <style>
+    body {
+      background-color: #222;
+      color: #eee;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin: 0;
+      padding: 20px;
+    }
+
+    #game-container {
+      position: relative;
+      width: 600px;
+      height: 600px;
+      margin: 0 auto;
+      border: 5px solid green;
+      background-color: black;
+    }
+
+    canvas {
+      background-color: black;
+      display: block;
+    }
+
+    #overlay {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      z-index: 2;
+    }
+
+    button {
+      font-size: 18px;
+      padding: 10px 20px;
+      margin: 10px;
+      cursor: pointer;
+    }
+
+    #game-over {
+      position: absolute;
+      top: 40%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 48px;
+      font-weight: bold;
+      color: red;
+      z-index: 3;
+      opacity: 0;
+      transition: opacity 1s ease;
+      pointer-events: none;
+    }
+
+    #game-over.show {
+      opacity: 1;
+    }
+
+    #score-left, #lives-right {
+      position: absolute;
+      top: 10px;
+      font-size: 18px;
+      color: limegreen;
+      z-index: 3;
+      background-color: rgba(0, 0, 0, 0.5);
+      padding: 5px 10px;
+      border-radius: 8px;
+      display: none;
+    }
+
+    #score-left { left: 10px; }
+    #lives-right { right: 10px; }
+
+    #ranking {
+      margin-top: 30px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+      background-color: #333;
+      padding: 15px;
+      border-radius: 10px;
+    }
+
+    #ranking h2 {
+      margin-top: 0;
+    }
+
+    #ranking ol {
+      padding-left: 20px;
+      text-align: left;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Jogo da Cobrinha</h1>
+
+  <div id="game-container">
+    <canvas id="game" width="600" height="600"></canvas>
+
+    <div id="score-left">Pontos: <span id="score">0</span></div>
+    <div id="lives-right">Vidas: <span id="lives">❤️❤️❤️</span></div>
+
+    <div id="overlay">
+      <button id="start-btn">Iniciar Jogo</button>
+      <button id="color-btn">Mudar Cor da Cobrinha</button>
+      <button id="bg-btn">Mudar Cor de Fundo</button>
+    </div>
+
+    <div id="game-over">GAME OVER</div>
+  </div>
+
+  <div id="ranking">
+    <h2>Ranking</h2>
+    <ol id="ranking-list"></ol>
+  </div>
+
+  <script>
+    const canvas = document.getElementById('game');
+    const ctx = canvas.getContext('2d');
+    const startBtn = document.getElementById('start-btn');
+    const colorBtn = document.getElementById('color-btn');
+    const bgBtn = document.getElementById('bg-btn');
+    const overlay = document.getElementById('overlay');
+    const gameOverText = document.getElementById('game-over');
+    const gameContainer = document.getElementById('game-container');
+    const scoreSpan = document.getElementById('score');
+    const livesSpan = document.getElementById('lives');
+    const scoreLeft = document.getElementById('score-left');
+    const livesRight = document.getElementById('lives-right');
+    const rankingList = document.getElementById('ranking-list');
+
+    const grid = 20;
+    let snake = [];
+    let dir = { x: 1, y: 0 };
+    let food = {};
+    let score = 0;
+    let lives = 3;
+    let speed = 150;
+    let interval;
+    let snakeColor = '#00FF00';
+    let bgColor = 'black';
+    let gameStarted = false;
+
+    function resetSnake() {
+      snake = [
+        { x: 5, y: 10 },
+        { x: 4, y: 10 },
+        { x: 3, y: 10 }
+      ];
+      dir = { x: 1, y: 0 };
+    }
+
+    function resetGame() {
+      clearInterval(interval);
+      snake = [];
+      food = {};
+      score = 0;
+      lives = 3;
+      speed = 150;
+      dir = { x: 1, y: 0 };
+      gameStarted = false;
+      gameOverText.classList.remove('show');
+      gameOverText.style.display = 'block';
+      gameContainer.style.borderColor = 'green';
+      overlay.style.display = 'flex';
+      scoreLeft.style.display = 'none';
+      livesRight.style.display = 'none';
+      draw(); // desenha tela limpa
+    }
+
+    function startGame() {
+      resetSnake();
+      placeFood();
+      gameStarted = true;
+      overlay.style.display = 'none';
+      scoreLeft.style.display = 'block';
+      livesRight.style.display = 'block';
+      draw();
+      updateUI();
+      interval = setInterval(gameLoop, speed);
+    }
+
+    function updateUI() {
+      scoreSpan.textContent = score;
+      livesSpan.textContent = '❤️'.repeat(lives) + '🖤'.repeat(3 - lives);
+    }
+
+    function loseLife() {
+      clearInterval(interval);
+      lives--;
+      updateUI();
+      gameContainer.style.borderColor = 'red';
+
+      if (lives <= 0) {
+        showGameOver();
+      } else {
+        setTimeout(() => {
+          gameContainer.style.borderColor = 'green';
+          startGame();
+        }, 1000);
+        resetSnake();
+      }
+    }
+
+    function showGameOver() {
+      clearInterval(interval);
+      gameOverText.classList.add('show');
+      gameContainer.style.borderColor = 'red';
+
+      setTimeout(() => {
+        gameOverText.classList.remove('show');
+        setTimeout(() => {
+          gameOverText.style.display = 'none';
+          const name = prompt("Digite seu nome para o ranking:");
+          if (name) saveScore(name, score);
+          showRanking();
+          resetGame();
+        }, 1000);
+      }, 2000);
+    }
+
+    function placeFood() {
+      food = {
+        x: Math.floor(Math.random() * (canvas.width / grid)),
+        y: Math.floor(Math.random() * (canvas.height / grid))
+      };
+    }
+
+    function drawApple(x, y) {
+      const cx = x * grid + grid / 2;
+      const cy = y * grid + grid / 2;
+
+      ctx.fillStyle = 'red';
+      ctx.beginPath();
+      ctx.arc(cx, cy, grid / 2 - 2, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.strokeStyle = 'brown';
+      ctx.beginPath();
+      ctx.moveTo(cx, cy - grid / 2 + 3);
+      ctx.lineTo(cx, cy - grid / 2 - 5);
+      ctx.stroke();
+
+      ctx.fillStyle = 'green';
+      ctx.beginPath();
+      ctx.arc(cx + 4, cy - grid / 2 - 5, 3, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    function draw() {
+      ctx.fillStyle = bgColor;
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      if (!gameStarted) return;
+
+      drawApple(food.x, food.y);
+
+      for (let i = 0; i < snake.length; i++) {
+        ctx.fillStyle = i === 0 ? '#66ff66' : snakeColor;
+        ctx.fillRect(snake[i].x * grid, snake[i].y * grid, grid - 1, grid - 1);
+        if (i === 0) {
+          ctx.fillStyle = 'black';
+          ctx.beginPath();
+          ctx.arc(snake[i].x * grid + 5, snake[i].y * grid + 5, 2, 0, Math.PI * 2);
+          ctx.arc(snake[i].x * grid + 15, snake[i].y * grid + 5, 2, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+    }
+
+    function gameLoop() {
+      const head = { x: snake[0].x + dir.x, y: snake[0].y + dir.y };
+
+      if (
+        head.x < 0 || head.x >= canvas.width / grid ||
+        head.y < 0 || head.y >= canvas.height / grid
+      ) {
+        loseLife();
+        return;
+      }
+
+      for (let i = 1; i < snake.length; i++) {
+        if (head.x === snake[i].x && head.y === snake[i].y) {
+          loseLife();
+          return;
+        }
+      }
+
+      snake.unshift(head);
+
+      if (head.x === food.x && head.y === food.y) {
+        score++;
+        updateUI();
+        placeFood();
+
+        if (score % 10 === 0 && speed > 50) {
+          speed -= 10;
+          clearInterval(interval);
+          interval = setInterval(gameLoop, speed);
+        }
+      } else {
+        snake.pop();
+      }
+
+      draw();
+    }
+
+    document.addEventListener('keydown', (e) => {
+      const key = e.key.toLowerCase();
+      if (key === 'w' && dir.y === 0) dir = { x: 0, y: -1 };
+      if (key === 's' && dir.y === 0) dir = { x: 0, y: 1 };
+      if (key === 'a' && dir.x === 0) dir = { x: -1, y: 0 };
+      if (key === 'd' && dir.x === 0) dir = { x: 1, y: 0 };
+    });
+
+    startBtn.onclick = startGame;
+
+    colorBtn.onclick = () => {
+      snakeColor = '#' + Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0');
+    };
+
+    bgBtn.onclick = () => {
+      bgColor = '#' + Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0');
+      draw();
+    };
+
+    function saveScore(name, score) {
+      const data = JSON.parse(localStorage.getItem('ranking')) || [];
+      data.push({ name, score });
+      data.sort((a, b) => b.score - a.score);
+      localStorage.setItem('ranking', JSON.stringify(data.slice(0, 10)));
+    }
+
+    function showRanking() {
+      const data = JSON.parse(localStorage.getItem('ranking')) || [];
+      rankingList.innerHTML = '';
+      data.forEach(entry => {
+        const li = document.createElement('li');
+        li.textContent = `${entry.name} - ${entry.score} pts`;
+        rankingList.appendChild(li);
+      });
+    }
+
+    showRanking();
+    resetGame();
+  </script>
+
+</body>
+</html>

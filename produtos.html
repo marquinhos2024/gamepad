@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>GamePad</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: url('cyberpunk-pixel-art-fg761ooxxfyi5791.jpg') no-repeat center center fixed;
+      background-size: cover;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      transition: all 0.5s ease;
+    }
+
+    header {
+      background-color: #35013a;
+      padding: 15px 30px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo img {
+      width: 100px;
+      cursor: pointer;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 30px;
+      margin: 0;
+      padding: 0;
+    }
+
+    nav ul li a {
+      position: relative;
+      text-decoration: none;
+      color: white;
+      font-weight: bold;
+      font-size: 18px;
+      text-shadow: 0 0 8px white;
+      transition: all 0.3s ease;
+    }
+
+    nav ul li a::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 0;
+      height: 3px;
+      background-color: #a020f0; /* tom roxo */
+      transition: width 0.3s ease;
+    }
+
+    nav ul li a:hover {
+      color: #a020f0; /* muda cor do texto para roxo */
+    }
+
+    nav ul li a:hover::after {
+      width: 100%; /* linha roxa aparece ao passar o mouse */
+    }
+
+    .main-container {
+      display: flex;
+      flex: 1;
+      overflow: hidden;
+    }
+
+    .galeria {
+      width: 320px;
+      background-color: rgba(53, 1, 58, 0.9);
+      padding: 20px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .galeria a img {
+      width: 100%;
+      border-radius: 10px;
+      cursor: pointer;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      transition: transform 0.3s;
+    }
+
+    .galeria a img:hover {
+      transform: scale(1.05);
+    }
+
+    .game-container {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: black;
+      position: relative;
+      transition: background-color 0.5s ease;
+    }
+
+    iframe {
+      width: 90%;
+      height: 90%;
+      border: none;
+      display: none;
+      border-radius: 10px;
+      background-color: white;
+    }
+
+    #btnVoltar,
+    #btnFullscreen,
+    #btnSairFullscreen {
+      position: absolute;
+      top: 20px;
+      z-index: 1000;
+      padding: 10px 20px;
+      border: none;
+      color: white;
+      font-weight: bold;
+      border-radius: 5px;
+      cursor: pointer;
+      display: none;
+      box-shadow: 0 0 8px white;
+    }
+
+    #btnVoltar {
+      left: 20px;
+      background-color: #35013a;
+    }
+
+    #btnFullscreen {
+      right: 20px;
+      background-color: #5a007a;
+    }
+
+    #btnSairFullscreen {
+      right: 20px;
+      background-color: #ff0055;
+    }
+
+    body.fullscreen header,
+    body.fullscreen .galeria {
+      display: none;
+    }
+
+    body.fullscreen .main-container,
+    body.fullscreen .game-container,
+    body.fullscreen iframe {
+      width: 100vw !important;
+      height: 100vh !important;
+      border-radius: 0 !important;
+      display: block !important;
+    }
+
+    /* 🌞 MODO CLARO */
+    body.modo-claro {
+      background: white;
+      color: black;
+    }
+
+    body.modo-claro header {
+      background-color: #f0f0f0;
+    }
+
+    body.modo-claro .galeria {
+      background-color: #dddddd;
+    }
+
+    body.modo-claro nav ul li a {
+      color: black;
+      text-shadow: none;
+    }
+
+    body.modo-claro nav ul li a:hover {
+      color: #a020f0;
+    }
+
+    body.modo-claro nav ul li a::after {
+      background-color: #a020f0;
+    }
+
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <img id="logoGamePad" src="ChatGPT_Image_12_de_mai._de_2025__08_53_45-removebg-preview.svg" alt="GamePad Logo" />
+    </div>
+    <nav>
+      <ul>
+        <li><a href="index.html">Category Game</a></li>
+        <li><a href="produtos.html">Home</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <div class="main-container" id="mainContainer">
+    <div class="galeria" id="galeria">
+      <a href="intexx.html" target="gameFrame" class="game-link"><img src="450_1000.jpg" alt="Pac-Man" /></a>
+      <a href="https://dino-chrome.com/pt#google_vignette" target="gameFrame" class="game-link"><img src="Sugestoes-de-jogo-de-dinossauro.webp" alt="T-Rex Game" /></a>
+      <a href="https://ligabloo.github.io/pong-ecsy/" target="gameFrame" class="game-link"><img src="ping-pong-games-ping-pong-fury.jpg" alt="Ping Pong Fury" /></a>
+      <a href="https://flappybird.io/" target="gameFrame" class="game-link"><img src="fundo.png" alt="Flappy Bird" /></a>
+      <a href="iintex.html" target="gameFrame" class="game-link"><img src="Tetris-Logo-Wallpaper.jpg" alt="Tetris" /></a>
+      <a href="https://dwmkerr.github.io/spaceinvaders/" target="gameFrame" class="game-link"><img src="screen_shot_2012-09-12_at_12.12.43_pm.0.jpeg.jpg" alt="Space Invaders" /></a>
+      <a href="https://fighting-game-in-js.netlify.app/html/index.html" target="gameFrame" class="game-link"><img src="ssssss.jpeg" alt="Luta" /></a>
+      <a href="jogo.html" target="gameFrame" class="game-link"><img src="snake.png" alt="Snake" /></a>
+      <a href="intethiago.html" target="gameFrame" class="game-link"><img src="71V21L1U9CL.jpg" alt="Luta" /></a>
+    </div>
+
+    <div class="game-container">
+      <iframe id="gameFrame" name="gameFrame" allowfullscreen></iframe>
+      <button id="btnVoltar">Voltar</button>
+      <button id="btnFullscreen">Tela cheia</button>
+      <button id="btnSairFullscreen">Sair Tela Cheia</button>
+    </div>
+  </div>
+
+  <script>
+    const galeria = document.getElementById('galeria');
+    const iframe = document.getElementById('gameFrame');
+    const btnVoltar = document.getElementById('btnVoltar');
+    const btnFullscreen = document.getElementById('btnFullscreen');
+    const btnSairFullscreen = document.getElementById('btnSairFullscreen');
+    const links = document.querySelectorAll('.game-link');
+    const logo = document.getElementById('logoGamePad');
+
+    links.forEach(link => {
+      link.addEventListener('click', function (e) {
+        e.preventDefault();
+        iframe.src = this.href;
+        iframe.style.display = 'block';
+        btnVoltar.style.display = 'inline-block';
+        btnFullscreen.style.display = 'inline-block';
+        btnSairFullscreen.style.display = 'none';
+        document.body.classList.remove('fullscreen');
+      });
+    });
+
+    btnVoltar.addEventListener('click', () => {
+      iframe.src = '';
+      iframe.style.display = 'none';
+      btnVoltar.style.display = 'none';
+      btnFullscreen.style.display = 'none';
+      btnSairFullscreen.style.display = 'none';
+      document.body.classList.remove('fullscreen');
+    });
+
+    btnFullscreen.addEventListener('click', () => {
+      document.body.classList.add('fullscreen');
+      btnFullscreen.style.display = 'none';
+      btnSairFullscreen.style.display = 'inline-block';
+    });
+
+    btnSairFullscreen.addEventListener('click', () => {
+      document.body.classList.remove('fullscreen');
+      iframe.src = '';
+      iframe.style.display = 'none';
+      btnVoltar.style.display = 'none';
+      btnFullscreen.style.display = 'none';
+      btnSairFullscreen.style.display = 'none';
+    });
+
+    // ✅ Alternar modo claro/escuro
+    logo.addEventListener('click', () => {
+      document.body.classList.toggle('modo-claro');
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>GamePad</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: url('papel-de-parede-de-fundo-de-jogos_190575-431.avif') no-repeat center center fixed;
+      background-size: cover;
+      color: white;
+      min-height: 100vh;
+    }
+
+    header {
+      background-color: rgba(53, 1, 58, 0.85);
+      padding: 15px 30px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo img {
+      width: 100px;
+      cursor: pointer;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 30px;
+      margin: 0;
+      padding: 0;
+    }
+
+    nav ul li a {
+      position: relative;
+      text-decoration: none;
+      color: white;
+      font-weight: bold;
+      font-size: 18px;
+      text-shadow: 0 0 8px white;
+      transition: all 0.3s ease;
+    }
+
+    nav ul li a::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 0;
+      height: 3px;
+      background-color: #a020f0;
+      transition: width 0.3s ease;
+    }
+
+    nav ul li a:hover {
+      color: #a020f0;
+    }
+
+    nav ul li a:hover::after {
+      width: 100%;
+    }
+
+    .galeria {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 20px;
+      padding: 30px;
+      background-color: rgba(0, 0, 0, 0.5);
+      max-width: 1200px;
+      margin: 30px auto;
+      border-radius: 15px;
+    }
+
+    .galeria a img {
+      width: 100%;
+      height: 150px;
+      object-fit: cover;
+      border-radius: 10px;
+      cursor: pointer;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+      transition: transform 0.3s ease;
+    }
+
+    .galeria a img:hover {
+      transform: scale(1.05);
+    }
+
+    /* Modo Claro */
+    body.modo-claro {
+      background: white;
+      color: black;
+    }
+
+    body.modo-claro header {
+      background-color: #f0f0f0;
+    }
+
+    body.modo-claro .galeria {
+      background-color: #eeeeee;
+    }
+
+    body.modo-claro nav ul li a {
+      color: black;
+      text-shadow: none;
+    }
+
+    body.modo-claro nav ul li a:hover {
+      color: #a020f0;
+    }
+
+    body.modo-claro nav ul li a::after {
+      background-color: #a020f0;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <img id="logoGamePad" src="ChatGPT_Image_12_de_mai._de_2025__08_53_45-removebg-preview.svg" alt="GamePad Logo" />
+    </div>
+    <nav>
+      <ul>
+        <li><a href="index.html">Category Game</a></li>
+        <li><a href="produtos.html">Home</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <div class="galeria">
+    <a href="intexx.html"><img src="450_1000.jpg" alt="Pac-Man" /></a>
+    <a href="https://dino-chrome.com/pt#google_vignette"><img src="Sugestoes-de-jogo-de-dinossauro.webp" alt="T-Rex Game" /></a>
+    <a href="https://ligabloo.github.io/pong-ecsy/"><img src="ping-pong-games-ping-pong-fury.jpg" alt="Ping Pong Fury" /></a>
+    <a href="https://flappybird.io/"><img src="fundo.png" alt="Flappy Bird" /></a>
+    <a href="iintex.html"><img src="Tetris-Logo-Wallpaper.jpg" alt="Tetris" /></a>
+    <a href="https://dwmkerr.github.io/spaceinvaders/"><img src="screen_shot_2012-09-12_at_12.12.43_pm.0.jpeg.jpg" alt="Space Invaders" /></a>
+    <a href="https://fighting-game-in-js.netlify.app/html/index.html"><img src="ssssss.jpeg" alt="Luta" /></a>
+    <a href="jogo.html"><img src="snake.png" alt="Snake" /></a>
+  </div>
+
+  <script>
+    const logo = document.getElementById('logoGamePad');
+    logo.addEventListener('click', () => {
+      document.body.classList.toggle('modo-claro');
+    });
+  </script>
+</body>
+</html>
