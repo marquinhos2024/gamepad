@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>GamePad</title>
+
+  <!-- Import das fontes -->
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Press+Start+2P&display=swap');
+
+    body {
+      margin: 0;
+      font-family: 'Orbitron', sans-serif;
+      background: linear-gradient(135deg, #4b006e, #d6336c);
+      color: white;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      box-sizing: border-box;
+      transition: background 0.5s, color 0.5s;
+    }
+
+    header {
+      background-color: rgba(53, 1, 58, 0.85);
+      padding: 15px 30px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+    }
+
+    .logo img {
+      width: 100px;
+      cursor: pointer;
+      transition: transform 0.3s;
+    }
+
+    .logo img:hover {
+      transform: scale(1.1);
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 30px;
+      margin: 0;
+      padding: 0;
+    }
+
+    nav ul li a {
+      position: relative;
+      text-decoration: none;
+      color: white;
+      font-weight: bold;
+      font-size: 18px;
+      text-shadow: 0 0 8px white;
+      transition: all 0.3s ease;
+    }
+
+    nav ul li a::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 0;
+      height: 3px;
+      background-color: #a020f0;
+      transition: width 0.3s ease;
+    }
+
+    nav ul li a:hover {
+      color: #a020f0;
+    }
+
+    nav ul li a:hover::after {
+      width: 100%;
+    }
+
+    h1 {
+      font-family: 'Press Start 2P', cursive;
+      font-size: 2.5rem;
+      margin: 30px 0 20px;
+      text-shadow: 0 0 10px #ff66cc;
+      text-align: center;
+    }
+
+    /* Cards programadores */
+    .programadores {
+      display: flex;
+      gap: 30px;
+      flex-wrap: wrap;
+      justify-content: center;
+      max-width: 900px;
+      width: 100%;
+    }
+
+    .programador {
+      background: linear-gradient(145deg, #72007d, #a9006e);
+      border-radius: 15px;
+      box-shadow: 0 0 20px #ff66cc;
+      padding: 20px;
+      width: 160px;
+      text-align: center;
+      cursor: pointer;
+      transition: transform 0.3s, box-shadow 0.3s;
+      user-select: none;
+    }
+
+    .programador:hover {
+      transform: scale(1.1);
+      box-shadow: 0 0 35px #ff99cc, 0 0 60px #ff66cc;
+    }
+
+    .programador img {
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      border: 4px solid #ff66cc;
+      object-fit: cover;
+      margin-bottom: 15px;
+      filter: drop-shadow(0 0 10px #ff66cc);
+    }
+
+    .programador p {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #ff99cc;
+      letter-spacing: 1.2px;
+      margin: 0;
+      text-shadow: 0 0 8px #ff66cc;
+    }
+
+    #info {
+      margin-top: 50px;
+      background: linear-gradient(145deg, #5e005a, #a00058);
+      border-radius: 15px;
+      box-shadow: 0 0 25px #ff66cc;
+      max-width: 420px;
+      width: 90%;
+      padding: 30px;
+      text-align: center;
+      display: none;
+    }
+
+    #info img {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      border: 3px solid #ff99cc;
+      object-fit: cover;
+      margin-bottom: 25px;
+      filter: drop-shadow(0 0 15px #ff99cc);
+    }
+
+    #nome-info {
+      font-family: 'Press Start 2P', cursive;
+      font-size: 1.8rem;
+      color: #ff66cc;
+      margin-bottom: 20px;
+      text-shadow: 0 0 12px #ff99cc;
+    }
+
+    #descricao-info {
+      font-size: 1rem;
+      line-height: 1.5;
+      color: #ffb3d9;
+      text-shadow: 0 0 6px #ff66cc;
+      white-space: pre-wrap;
+      margin-top: 15px;
+    }
+
+    .detalhes {
+      font-size: 1rem;
+      color: #ffb3d9;
+      margin: 5px 0;
+      text-shadow: 0 0 6px #ff66cc;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    #foto-equipe {
+      margin-top: 60px;
+      max-width: 700px;
+      width: 90%;
+      border-radius: 20px;
+      border: 5px solid #ff66cc;
+      box-shadow: 0 0 40px #ff66cc;
+      filter: drop-shadow(0 0 20px #ff66cc);
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* Estilo para modo claro */
+    body.light {
+      background: linear-gradient(135deg, #f8f9fa, #e3e3e3);
+      color: black;
+    }
+
+    body.light header {
+      background-color: rgba(200, 200, 200, 0.9);
+    }
+
+    body.light nav ul li a {
+      color: black;
+      text-shadow: none;
+    }
+
+    body.light nav ul li a:hover {
+      color: #ff66cc;
+    }
+
+    body.light .programador {
+      background: #ffffff;
+      box-shadow: 0 0 10px #aaa;
+    }
+
+    body.light .programador p {
+      color: #333;
+      text-shadow: none;
+    }
+
+    body.light #info {
+      background: #fff;
+      color: #333;
+      box-shadow: 0 0 20px #aaa;
+    }
+
+    body.light #descricao-info,
+    body.light .detalhes {
+      color: #333;
+      text-shadow: none;
+    }
+
+    body.light h1 {
+      color: #333;
+      text-shadow: none;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <img id="logoGamePad" src="ChatGPT_Image_12_de_mai._de_2025__08_53_45-removebg-preview.svg" alt="GamePad Logo" onclick="toggleTheme()" />
+    </div>
+    <nav>
+      <ul>
+        <li><a href="index.html">Category Game</a></li>
+        <li><a href="produtos.html">Home</a></li>
+        <li><a href="undexprogramador.html">Programadores</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <h1>Programadores Gamer</h1>
+
+  <div class="programadores">
+    <div class="programador" onclick="mostrarInfo(this, 'programador1')">
+      <img src="WhatsApp Image 2025-09-10 at 11.45.15.jpeg" alt="Marcos Vinicius" />
+      <p>Marcos Vinicius</p>
+    </div>
+    <div class="programador" onclick="mostrarInfo(this, 'programador2')">
+      <img src="ana.jpeg" alt="Ana" />
+      <p>Ana</p>
+    </div>
+    <div class="programador" onclick="mostrarInfo(this, 'programador3')">
+      <img src="thiago.jpeg" alt="Thiago" />
+      <p>Thiago</p>
+    </div>
+    <div class="programador" onclick="mostrarInfo(this, 'programador4')">
+      <img src="merielen.jpeg" alt="Merielen" />
+      <p>Merielen</p>
+    </div>
+  </div>
+
+  <div id="info">
+    <img id="foto-info" src="" alt="Foto do programador" />
+    <h2 id="nome-info"></h2>
+    <p class="detalhes" id="idade-info"></p>
+    <p class="detalhes" id="funcao-info"></p>
+    <p class="detalhes" id="estudo-info"></p>
+    <p id="descricao-info"></p>
+  </div>
+
+  <img id="foto-equipe" src="WhatsApp Image 2025-09-11 at 08.03.21.jpeg" alt="Foto da equipe" />
+
+  <script>
+    const programadores = {
+      programador1: {
+        nome: 'Marcos Vinicius',
+        idade: 18,
+        funcao: 'Criou a parte de front-end do site GamePad',
+        estudo: 'Estuda no 3º ano de Jogos Digitais',
+        descricao: 'Gosto de criar sites Web.'
+      },
+      programador2: {
+        nome: 'Ana Júlia',
+        idade: 17,
+        funcao: 'Desenvolvedora de jogos',
+        estudo: '3º Jogos Digitais',
+        descricao: 'Ana Júlia gosta de programar em SQL.'
+      },
+      programador3: {
+        nome: 'Thiago dos Santos',
+        idade: 18,
+        estudo: '3º Jogos Digitais',
+        funcao: 'Desenvolvedor de jogos',
+        descricao: 'Thiago gosta de programar no Visual Studio Code.'
+      },
+      programador4: {
+        nome: 'Merielen Daniel',
+        idade: 17,
+        funcao: 'Programadora',
+        estudo: '3º Jogos Digitais',
+        descricao: 'Merielen gosta de programar.'
+      }
+    };
+
+    function mostrarInfo(elemento, id) {
+      const info = programadores[id];
+      if (!info) return;
+
+      const fotoLista = elemento.querySelector('img').src;
+
+      document.getElementById('foto-info').src = fotoLista;
+      document.getElementById('foto-info').alt = info.nome;
+      document.getElementById('nome-info').textContent = info.nome;
+      document.getElementById('idade-info').textContent = `Idade: ${info.idade} anos`;
+      document.getElementById('funcao-info').textContent = `Função: ${info.funcao}`;
+      document.getElementById('estudo-info').textContent = `Estuda em: ${info.estudo}`;
+      document.getElementById('descricao-info').textContent = info.descricao;
+
+      document.getElementById('info').style.display = 'block';
+      window.scrollTo({
+        top: document.getElementById('info').offsetTop,
+        behavior: 'smooth'
+      });
+    }
+
+    function toggleTheme() {
+      document.body.classList.toggle('light');
+    }
+  </script>
+</body>
+</html>
