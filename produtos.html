@@ -1,189 +1,193 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>GamePad</title>
+  <meta charset="UTF-8" /> <!-- Define a codificação para UTF-8 -->
+  <meta name="viewport" content="width=device-width, initial-scale=1" /> <!-- Responsividade para dispositivos móveis -->
+  <title>GamePad</title> <!-- Título da página -->
+
   <style>
     body {
-      margin: 0;
-      font-family: Arial, sans-serif;
+      margin: 0; /* Remove margens padrão */
+      font-family: Arial, sans-serif; /* Define fonte padrão */
+      /* Imagem de fundo fixa, centralizada e sem repetição */
       background: url('cyberpunk-pixel-art-fg761ooxxfyi5791.jpg') no-repeat center center fixed;
-      background-size: cover;
-      color: white;
-      display: flex;
-      flex-direction: column;
-      height: 100vh;
-      transition: all 0.5s ease;
+      background-size: cover; /* Cobre todo o fundo */
+      color: white; /* Cor padrão do texto */
+      display: flex; /* Usa flexbox para layout */
+      flex-direction: column; /* Organiza filhos em coluna */
+      height: 100vh; /* Altura total da viewport */
+      transition: all 0.5s ease; /* Transição suave para mudanças */
     }
 
     header {
-      background-color: #35013a;
-      padding: 15px 30px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+      background-color: #35013a; /* Fundo roxo escuro */
+      padding: 15px 30px; /* Espaçamento interno */
+      display: flex; /* Flexbox para itens do cabeçalho */
+      align-items: center; /* Alinha verticalmente ao centro */
+      justify-content: space-between; /* Espaço máximo entre elementos */
     }
 
     .logo img {
-      width: 100px;
-      cursor: pointer;
+      width: 100px; /* Largura da imagem do logo */
+      cursor: pointer; /* Cursor muda para mãozinha ao passar */
     }
 
     nav ul {
-      list-style: none;
-      display: flex;
-      gap: 30px;
-      margin: 0;
-      padding: 0;
+      list-style: none; /* Remove marcadores da lista */
+      display: flex; /* Lista em linha */
+      gap: 30px; /* Espaço entre os itens */
+      margin: 0; /* Remove margens */
+      padding: 0; /* Remove padding */
     }
 
     nav ul li a {
-      position: relative;
-      text-decoration: none;
-      color: white;
-      font-weight: bold;
-      font-size: 18px;
-      text-shadow: 0 0 8px white;
-      transition: all 0.3s ease;
+      position: relative; /* Para efeito com ::after */
+      text-decoration: none; /* Remove sublinhado */
+      color: white; /* Cor do texto */
+      font-weight: bold; /* Negrito */
+      font-size: 18px; /* Tamanho da fonte */
+      text-shadow: 0 0 8px white; /* Sombra para brilho */
+      transition: all 0.3s ease; /* Transição suave para hover */
     }
 
     nav ul li a::after {
-      content: '';
-      position: absolute;
-      bottom: -5px;
-      left: 0;
-      width: 0;
-      height: 3px;
-      background-color: #a020f0; /* tom roxo */
-      transition: width 0.3s ease;
+      content: ''; /* Elemento decorativo vazio */
+      position: absolute; /* Posicionamento absoluto */
+      bottom: -5px; /* 5px abaixo do texto */
+      left: 0; /* Alinhado à esquerda */
+      width: 0; /* Inicialmente invisível */
+      height: 3px; /* Altura da linha */
+      background-color: #a020f0; /* Cor roxa */
+      transition: width 0.3s ease; /* Animação da largura */
     }
 
     nav ul li a:hover {
-      color: #a020f0; /* muda cor do texto para roxo */
+      color: #a020f0; /* Cor do texto muda para roxo no hover */
     }
 
     nav ul li a:hover::after {
-      width: 100%; /* linha roxa aparece ao passar o mouse */
+      width: 100%; /* Linha roxa aparece por completo ao passar mouse */
     }
 
     .main-container {
-      display: flex;
-      flex: 1;
-      overflow: hidden;
+      display: flex; /* Flexbox para dividir conteúdo */
+      flex: 1; /* Ocupa o espaço restante da coluna */
+      overflow: hidden; /* Esconde overflow */
     }
 
     .galeria {
-      width: 320px;
-      background-color: rgba(53, 1, 58, 0.9);
-      padding: 20px;
-      overflow-y: auto;
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
+      width: 320px; /* Largura fixa da galeria */
+      background-color: rgba(53, 1, 58, 0.9); /* Fundo roxo escuro semi-transparente */
+      padding: 20px; /* Espaçamento interno */
+      overflow-y: auto; /* Scroll vertical se necessário */
+      display: flex; /* Flexbox para organizar as imagens */
+      flex-direction: column; /* Imagens em coluna */
+      gap: 20px; /* Espaço entre as imagens */
     }
 
     .galeria a img {
-      width: 100%;
-      border-radius: 10px;
-      cursor: pointer;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-      transition: transform 0.3s;
+      width: 100%; /* Imagem ocupa toda largura do link */
+      border-radius: 10px; /* Bordas arredondadas */
+      cursor: pointer; /* Cursor de mãozinha */
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra leve */
+      transition: transform 0.3s; /* Transição suave para efeito hover */
     }
 
     .galeria a img:hover {
-      transform: scale(1.05);
+      transform: scale(1.05); /* Aumenta imagem em 5% no hover */
     }
 
     .game-container {
-      flex: 1;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background-color: black;
-      position: relative;
-      transition: background-color 0.5s ease;
+      flex: 1; /* Ocupa espaço restante */
+      display: flex; /* Flexbox para centralizar iframe e botões */
+      justify-content: center; /* Centraliza horizontalmente */
+      align-items: center; /* Centraliza verticalmente */
+      background-color: black; /* Fundo preto */
+      position: relative; /* Para posicionar os botões */
+      transition: background-color 0.5s ease; /* Transição suave */
     }
 
     iframe {
-      width: 90%;
-      height: 90%;
-      border: none;
-      display: none;
-      border-radius: 10px;
-      background-color: white;
+      width: 90%; /* Largura do iframe */
+      height: 90%; /* Altura do iframe */
+      border: none; /* Sem borda */
+      display: none; /* Inicialmente escondido */
+      border-radius: 10px; /* Bordas arredondadas */
+      background-color: white; /* Fundo branco do iframe */
     }
 
+    /* Botões: Voltar, Tela cheia e Sair tela cheia */
     #btnVoltar,
     #btnFullscreen,
     #btnSairFullscreen {
-      position: absolute;
-      top: 20px;
-      z-index: 1000;
-      padding: 10px 20px;
-      border: none;
-      color: white;
-      font-weight: bold;
-      border-radius: 5px;
-      cursor: pointer;
-      display: none;
-      box-shadow: 0 0 8px white;
+      position: absolute; /* Posição fixa dentro do game-container */
+      top: 20px; /* Distância do topo */
+      z-index: 1000; /* Fica acima dos outros elementos */
+      padding: 10px 20px; /* Espaçamento interno */
+      border: none; /* Sem bordas */
+      color: white; /* Cor do texto */
+      font-weight: bold; /* Negrito */
+      border-radius: 5px; /* Bordas arredondadas */
+      cursor: pointer; /* Cursor mãozinha */
+      display: none; /* Inicialmente escondidos */
+      box-shadow: 0 0 8px white; /* Sombra para destaque */
     }
 
     #btnVoltar {
-      left: 20px;
-      background-color: #35013a;
+      left: 20px; /* Posicionado à esquerda */
+      background-color: #35013a; /* Fundo roxo escuro */
     }
 
     #btnFullscreen {
-      right: 20px;
-      background-color: #5a007a;
+      right: 20px; /* Posicionado à direita */
+      background-color: #5a007a; /* Fundo roxo médio */
     }
 
     #btnSairFullscreen {
-      right: 20px;
-      background-color: #ff0055;
+      right: 20px; /* Também à direita */
+      background-color: #ff0055; /* Fundo vermelho */
     }
 
+    /* Estilos para o modo fullscreen */
     body.fullscreen header,
     body.fullscreen .galeria {
-      display: none;
+      display: none; /* Esconde cabeçalho e galeria */
     }
 
     body.fullscreen .main-container,
     body.fullscreen .game-container,
     body.fullscreen iframe {
-      width: 100vw !important;
-      height: 100vh !important;
-      border-radius: 0 !important;
-      display: block !important;
+      width: 100vw !important; /* Ocupa toda a largura da tela */
+      height: 100vh !important; /* Ocupa toda a altura da tela */
+      border-radius: 0 !important; /* Remove bordas arredondadas */
+      display: block !important; /* Mostra o iframe e containers */
     }
 
     /* 🌞 MODO CLARO */
     body.modo-claro {
-      background: white;
-      color: black;
+      background: white; /* Fundo branco */
+      color: black; /* Texto preto */
     }
 
     body.modo-claro header {
-      background-color: #f0f0f0;
+      background-color: #f0f0f0; /* Fundo claro no cabeçalho */
     }
 
     body.modo-claro .galeria {
-      background-color: #dddddd;
+      background-color: #dddddd; /* Fundo cinza claro na galeria */
     }
 
     body.modo-claro nav ul li a {
-      color: black;
-      text-shadow: none;
+      color: black; /* Texto preto nos links */
+      text-shadow: none; /* Remove sombra */
     }
 
     body.modo-claro nav ul li a:hover {
-      color: #a020f0;
+      color: #a020f0; /* Mantém roxo no hover */
     }
 
     body.modo-claro nav ul li a::after {
-      background-color: #a020f0;
+      background-color: #a020f0; /* Linha roxa no hover */
     }
 
   </style>
@@ -191,22 +195,25 @@
 <body>
   <header>
     <div class="logo">
+      <!-- Logo clicável para alternar modo claro/escuro -->
       <img id="logoGamePad" src="ChatGPT_Image_12_de_mai._de_2025__08_53_45-removebg-preview.svg" alt="GamePad Logo" />
     </div>
     <nav>
       <ul>
-        <li><a href="index.html">Category</a></li>
-        <li><a href="produtos.html">Home</a></li>
+        <li><a href="index.html">Category Game</a></li> <!-- Link para categoria -->
+        <li><a href="produtos.html">Home</a></li> <!-- Link para home -->
+        <li><a href="undexprogramador.html">Programadores</a></li> <!-- Link para programadores -->
       </ul>
     </nav>
   </header>
 
   <div class="main-container" id="mainContainer">
     <div class="galeria" id="galeria">
+      <!-- Lista de jogos com links que abrem no iframe -->
       <a href="intexx.html" target="gameFrame" class="game-link"><img src="450_1000.jpg" alt="Pac-Man" /></a>
       <a href="https://dino-chrome.com/pt#google_vignette" target="gameFrame" class="game-link"><img src="Sugestoes-de-jogo-de-dinossauro.webp" alt="T-Rex Game" /></a>
       <a href="https://ligabloo.github.io/pong-ecsy/" target="gameFrame" class="game-link"><img src="ping-pong-games-ping-pong-fury.jpg" alt="Ping Pong Fury" /></a>
-      <a href="https://flappybird.io/" target="gameFrame" class="game-link"><img src="fundo.png" alt="Flappy Bird" /></a>
+      <a href="flappy.html" target="gameFrame" class="game-link"><img src="fundo.png" alt="Flappy Bird" /></a>
       <a href="iintex.html" target="gameFrame" class="game-link"><img src="Tetris-Logo-Wallpaper.jpg" alt="Tetris" /></a>
       <a href="https://dwmkerr.github.io/spaceinvaders/" target="gameFrame" class="game-link"><img src="screen_shot_2012-09-12_at_12.12.43_pm.0.jpeg.jpg" alt="Space Invaders" /></a>
       <a href="https://fighting-game-in-js.netlify.app/html/index.html" target="gameFrame" class="game-link"><img src="ssssss.jpeg" alt="Luta" /></a>
@@ -215,7 +222,9 @@
     </div>
 
     <div class="game-container">
+      <!-- Iframe que exibe os jogos -->
       <iframe id="gameFrame" name="gameFrame" allowfullscreen></iframe>
+      <!-- Botões para controlar o iframe e fullscreen -->
       <button id="btnVoltar">Voltar</button>
       <button id="btnFullscreen">Tela cheia</button>
       <button id="btnSairFullscreen">Sair Tela Cheia</button>
@@ -223,6 +232,7 @@
   </div>
 
   <script>
+    // Referências dos elementos principais
     const galeria = document.getElementById('galeria');
     const iframe = document.getElementById('gameFrame');
     const btnVoltar = document.getElementById('btnVoltar');
@@ -231,45 +241,49 @@
     const links = document.querySelectorAll('.game-link');
     const logo = document.getElementById('logoGamePad');
 
+    // Evento para carregar jogo no iframe ao clicar no link da galeria
     links.forEach(link => {
       link.addEventListener('click', function (e) {
-        e.preventDefault();
-        iframe.src = this.href;
-        iframe.style.display = 'block';
-        btnVoltar.style.display = 'inline-block';
-        btnFullscreen.style.display = 'inline-block';
-        btnSairFullscreen.style.display = 'none';
-        document.body.classList.remove('fullscreen');
+        e.preventDefault(); // Previna o comportamento padrão do link
+        iframe.src = this.href; // Define o src do iframe para o link clicado
+        iframe.style.display = 'block'; // Mostra o iframe
+        btnVoltar.style.display = 'inline-block'; // Mostra botão voltar
+        btnFullscreen.style.display = 'inline-block'; // Mostra botão fullscreen
+        btnSairFullscreen.style.display = 'none'; // Esconde botão sair fullscreen
+        document.body.classList.remove('fullscreen'); // Remove classe fullscreen do body
       });
     });
 
+    // Evento do botão Voltar: esconde iframe e botões
     btnVoltar.addEventListener('click', () => {
-      iframe.src = '';
-      iframe.style.display = 'none';
-      btnVoltar.style.display = 'none';
-      btnFullscreen.style.display = 'none';
-      btnSairFullscreen.style.display = 'none';
-      document.body.classList.remove('fullscreen');
+      iframe.src = ''; // Remove o src do iframe
+      iframe.style.display = 'none'; // Esconde o iframe
+      btnVoltar.style.display = 'none'; // Esconde botão voltar
+      btnFullscreen.style.display = 'none'; // Esconde botão fullscreen
+      btnSairFullscreen.style.display = 'none'; // Esconde botão sair fullscreen
+      document.body.classList.remove('fullscreen'); // Remove classe fullscreen
     });
 
+    // Evento do botão Tela cheia: ativa modo fullscreen
     btnFullscreen.addEventListener('click', () => {
-      document.body.classList.add('fullscreen');
-      btnFullscreen.style.display = 'none';
-      btnSairFullscreen.style.display = 'inline-block';
+      document.body.classList.add('fullscreen'); // Adiciona classe fullscreen
+      btnFullscreen.style.display = 'none'; // Esconde botão fullscreen
+      btnSairFullscreen.style.display = 'inline-block'; // Mostra botão sair fullscreen
     });
 
+    // Evento do botão Sair Tela Cheia: desativa fullscreen e esconde iframe e botões
     btnSairFullscreen.addEventListener('click', () => {
-      document.body.classList.remove('fullscreen');
-      iframe.src = '';
-      iframe.style.display = 'none';
-      btnVoltar.style.display = 'none';
-      btnFullscreen.style.display = 'none';
-      btnSairFullscreen.style.display = 'none';
+      document.body.classList.remove('fullscreen'); // Remove classe fullscreen
+      iframe.src = ''; // Remove src do iframe
+      iframe.style.display = 'none'; // Esconde iframe
+      btnVoltar.style.display = 'none'; // Esconde botão voltar
+      btnFullscreen.style.display = 'none'; // Esconde botão fullscreen
+      btnSairFullscreen.style.display = 'none'; // Esconde botão sair fullscreen
     });
 
-    // ✅ Alternar modo claro/escuro
+    // ✅ Alternar modo claro/escuro ao clicar no logo
     logo.addEventListener('click', () => {
-      document.body.classList.toggle('modo-claro');
+      document.body.classList.toggle('modo-claro'); // Alterna classe modo-claro no body
     });
   </script>
 </body>
