@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ping Pong - 2 Jogadores</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: black;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      color: white;
+      font-family: Arial, sans-serif;
+      flex-direction: column;
+    }
+
+    canvas {
+      background: #111;
+      border: 4px solid white;
+      display: block;
+      max-width: 100%;
+      height: auto;
+    }
+
+    #placar {
+      color: white;
+      font-size: 22px;
+      margin-bottom: 10px;
+    }
+
+    .controles {
+      display: flex;
+      justify-content: space-around;
+      width: 100%;
+      max-width: 800px;
+      margin-top: 10px;
+    }
+
+    .lado {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    button {
+      background-color: rgba(255, 255, 255, 0.2);
+      border: 2px solid white;
+      color: white;
+      font-size: 18px;
+      padding: 15px;
+      border-radius: 10px;
+      width: 80px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    button:active {
+      background-color: rgba(160, 32, 240, 0.6);
+      transform: scale(0.95);
+    }
+
+    @media (min-width: 768px) {
+      .controles {
+        display: none; /* esconde botões no PC */
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="placar">Jogador 1: 0 | Jogador 2: 0</div>
+  <canvas id="gameCanvas" width="800" height="500"></canvas>
+
+  <!-- Controles para celular -->
+  <div class="controles">
+    <div class="lado">
+      <button id="p1Up">⬆️</button>
+      <button id="p1Down">⬇️</button>
+    </div>
+    <div class="lado">
+      <button id="p2Up">⬆️</button>
+      <button id="p2Down">⬇️</button>
+    </div>
+  </div>
+
+  <script>
+    const canvas = document.getElementById("gameCanvas");
+    const ctx = canvas.getContext("2d");
+
+    const paddleHeight = 80;
+    const paddleWidth = 10;
+    const player1 = { x: 20, y: canvas.height / 2 - 40, score: 0 };
+    const player2 = { x: canvas.width - 30, y: canvas.height / 2 - 40, score: 0 };
+
+    const ball = {
+      x: canvas.width / 2,
+      y: canvas.height / 2,
+      radius: 8,
+      speedX: 4,
+      speedY: 4
+    };
+
+    const keys = {};
+
+    // Controles de teclado
+    document.addEventListener("keydown", (e) => keys[e.key] = true);
+    document.addEventListener("keyup", (e) => keys[e.key] = false);
+
+    // Controles por toque (celular)
+    document.getElementById("p1Up").ontouchstart = () => keys["w"] = true;
+    document.getElementById("p1Up").ontouchend = () => keys["w"] = false;
+    document.getElementById("p1Down").ontouchstart = () => keys["s"] = true;
+    document.getElementById("p1Down").ontouchend = () => keys["s"] = false;
+
+    document.getElementById("p2Up").ontouchstart = () => keys["ArrowUp"] = true;
+    document.getElementById("p2Up").ontouchend = () => keys["ArrowUp"] = false;
+    document.getElementById("p2Down").ontouchstart = () => keys["ArrowDown"] = true;
+    document.getElementById("p2Down").ontouchend = () => keys["ArrowDown"] = false;
+
+    function movePlayers() {
+      // Jogador 1
+      if (keys["w"] && player1.y > 0) player1.y -= 6;
+      if (keys["s"] && player1.y < canvas.height - paddleHeight) player1.y += 6;
+
+      // Jogador 2
+      if (keys["ArrowUp"] && player2.y > 0) player2.y -= 6;
+      if (keys["ArrowDown"] && player2.y < canvas.height - paddleHeight) player2.y += 6;
+    }
+
+    function moveBall() {
+      ball.x += ball.speedX;
+      ball.y += ball.speedY;
+
+      // Colisão com o topo e base
+      if (ball.y - ball.radius < 0 || ball.y + ball.radius > canvas.height) {
+        ball.speedY *= -1;
+      }
+
+      // Colisão com raquetes
+      if (
+        ball.x - ball.radius < player1.x + paddleWidth &&
+        ball.y > player1.y &&
+        ball.y < player1.y + paddleHeight
+      ) {
+        ball.speedX *= -1;
+      }
+
+      if (
+        ball.x + ball.radius > player2.x &&
+        ball.y > player2.y &&
+        ball.y < player2.y + paddleHeight
+      ) {
+        ball.speedX *= -1;
+      }
+
+      // Pontuação
+      if (ball.x < 0) {
+        player2.score++;
+        resetBall();
+      }
+      if (ball.x > canvas.width) {
+        player1.score++;
+        resetBall();
+      }
+    }
+
+    function resetBall() {
+      ball.x = canvas.width / 2;
+      ball.y = canvas.height / 2;
+      ball.speedX *= -1;
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // Linha central
+      ctx.beginPath();
+      ctx.setLineDash([10, 10]);
+      ctx.moveTo(canvas.width / 2, 0);
+      ctx.lineTo(canvas.width / 2, canvas.height);
+      ctx.strokeStyle = "white";
+      ctx.stroke();
+
+      // Raquetes
+      ctx.fillStyle = "white";
+      ctx.fillRect(player1.x, player1.y, paddleWidth, paddleHeight);
+      ctx.fillRect(player2.x, player2.y, paddleWidth, paddleHeight);
+
+      // Bola
+      ctx.beginPath();
+      ctx.arc(ball.x, ball.y, ball.radius, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Placar
+      document.getElementById("placar").textContent =
+        `Jogador 1: ${player1.score} | Jogador 2: ${player2.score}`;
+    }
+
+    function gameLoop() {
+      movePlayers();
+      moveBall();
+      draw();
+      requestAnimationFrame(gameLoop);
+    }
+
+    gameLoop();
+  </script>
+</body>
+</html>
