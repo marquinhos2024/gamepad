@@ -1,215 +1,249 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" /> <!-- Define a codificação para UTF-8 -->
-  <meta name="viewport" content="width=device-width, initial-scale=1" /> <!-- Responsividade para dispositivos móveis -->
-  <title>GamePad</title> <!-- Título da página -->
-
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>GamePad</title>
   <style>
     body {
-      margin: 0; /* Remove margens padrão */
-      font-family: Arial, sans-serif; /* Define fonte padrão */
-      /* Imagem de fundo fixa, centralizada e sem repetição */
+      margin: 0;
+      font-family: Arial, sans-serif;
       background: url('cyberpunk-pixel-art-fg761ooxxfyi5791.jpg') no-repeat center center fixed;
-      background-size: cover; /* Cobre todo o fundo */
-      color: white; /* Cor padrão do texto */
-      display: flex; /* Usa flexbox para layout */
-      flex-direction: column; /* Organiza filhos em coluna */
-      height: 100vh; /* Altura total da viewport */
-      transition: all 0.5s ease; /* Transição suave para mudanças */
+      background-size: cover;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      transition: all 0.5s ease;
     }
 
     header {
-      background-color: #35013a; /* Fundo roxo escuro */
-      padding: 15px 30px; /* Espaçamento interno */
-      display: flex; /* Flexbox para itens do cabeçalho */
-      align-items: center; /* Alinha verticalmente ao centro */
-      justify-content: space-between; /* Espaço máximo entre elementos */
+      background-color: #35013a;
+      padding: 15px 30px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
     }
 
     .logo img {
-      width: 100px; /* Largura da imagem do logo */
-      cursor: pointer; /* Cursor muda para mãozinha ao passar */
+      width: 90px;
+      cursor: pointer;
     }
 
     nav ul {
-      list-style: none; /* Remove marcadores da lista */
-      display: flex; /* Lista em linha */
-      gap: 30px; /* Espaço entre os itens */
-      margin: 0; /* Remove margens */
-      padding: 0; /* Remove padding */
+      list-style: none;
+      display: flex;
+      gap: 25px;
+      margin: 0;
+      padding: 0;
+      flex-wrap: wrap;
     }
 
     nav ul li a {
-      position: relative; /* Para efeito com ::after */
-      text-decoration: none; /* Remove sublinhado */
-      color: white; /* Cor do texto */
-      font-weight: bold; /* Negrito */
-      font-size: 18px; /* Tamanho da fonte */
-      text-shadow: 0 0 8px white; /* Sombra para brilho */
-      transition: all 0.3s ease; /* Transição suave para hover */
+      position: relative;
+      text-decoration: none;
+      color: white;
+      font-weight: bold;
+      font-size: 16px;
+      text-shadow: 0 0 8px white;
+      transition: all 0.3s ease;
     }
 
     nav ul li a::after {
-      content: ''; /* Elemento decorativo vazio */
-      position: absolute; /* Posicionamento absoluto */
-      bottom: -5px; /* 5px abaixo do texto */
-      left: 0; /* Alinhado à esquerda */
-      width: 0; /* Inicialmente invisível */
-      height: 3px; /* Altura da linha */
-      background-color: #a020f0; /* Cor roxa */
-      transition: width 0.3s ease; /* Animação da largura */
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 0;
+      height: 3px;
+      background-color: #a020f0;
+      transition: width 0.3s ease;
     }
 
     nav ul li a:hover {
-      color: #a020f0; /* Cor do texto muda para roxo no hover */
+      color: #a020f0;
     }
 
     nav ul li a:hover::after {
-      width: 100%; /* Linha roxa aparece por completo ao passar mouse */
+      width: 100%;
     }
 
     .main-container {
-      display: flex; /* Flexbox para dividir conteúdo */
-      flex: 1; /* Ocupa o espaço restante da coluna */
-      overflow: hidden; /* Esconde overflow */
+      display: flex;
+      flex: 1;
+      overflow: hidden;
     }
 
     .galeria {
-      width: 320px; /* Largura fixa da galeria */
-      background-color: rgba(53, 1, 58, 0.9); /* Fundo roxo escuro semi-transparente */
-      padding: 20px; /* Espaçamento interno */
-      overflow-y: auto; /* Scroll vertical se necessário */
-      display: flex; /* Flexbox para organizar as imagens */
-      flex-direction: column; /* Imagens em coluna */
-      gap: 20px; /* Espaço entre as imagens */
+      width: 320px;
+      background-color: rgba(53, 1, 58, 0.9);
+      padding: 20px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
     }
 
     .galeria a img {
-      width: 100%; /* Imagem ocupa toda largura do link */
-      border-radius: 10px; /* Bordas arredondadas */
-      cursor: pointer; /* Cursor de mãozinha */
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra leve */
-      transition: transform 0.3s; /* Transição suave para efeito hover */
+      width: 100%;
+      border-radius: 10px;
+      cursor: pointer;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+      transition: transform 0.3s;
     }
 
     .galeria a img:hover {
-      transform: scale(1.05); /* Aumenta imagem em 5% no hover */
+      transform: scale(1.05);
     }
 
     .game-container {
-      flex: 1; /* Ocupa espaço restante */
-      display: flex; /* Flexbox para centralizar iframe e botões */
-      justify-content: center; /* Centraliza horizontalmente */
-      align-items: center; /* Centraliza verticalmente */
-      background-color: black; /* Fundo preto */
-      position: relative; /* Para posicionar os botões */
-      transition: background-color 0.5s ease; /* Transição suave */
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: black;
+      position: relative;
+      transition: background-color 0.5s ease;
     }
 
     iframe {
-      width: 90%; /* Largura do iframe */
-      height: 90%; /* Altura do iframe */
-      border: none; /* Sem borda */
-      display: none; /* Inicialmente escondido */
-      border-radius: 10px; /* Bordas arredondadas */
-      background-color: white; /* Fundo branco do iframe */
+      width: 90%;
+      height: 90%;
+      border: none;
+      display: none;
+      border-radius: 10px;
+      background-color: white;
     }
 
-    /* Botões: Voltar, Tela cheia e Sair tela cheia */
     #btnVoltar,
     #btnFullscreen,
     #btnSairFullscreen {
-      position: absolute; /* Posição fixa dentro do game-container */
-      top: 20px; /* Distância do topo */
-      z-index: 1000; /* Fica acima dos outros elementos */
-      padding: 10px 20px; /* Espaçamento interno */
-      border: none; /* Sem bordas */
-      color: white; /* Cor do texto */
-      font-weight: bold; /* Negrito */
-      border-radius: 5px; /* Bordas arredondadas */
-      cursor: pointer; /* Cursor mãozinha */
-      display: none; /* Inicialmente escondidos */
-      box-shadow: 0 0 8px white; /* Sombra para destaque */
+      position: absolute;
+      top: 20px;
+      z-index: 1000;
+      padding: 10px 20px;
+      border: none;
+      color: white;
+      font-weight: bold;
+      border-radius: 8px;
+      cursor: pointer;
+      display: none;
+      box-shadow: 0 0 8px white;
+      font-size: 16px;
     }
 
-    #btnVoltar {
-      left: 20px; /* Posicionado à esquerda */
-      background-color: #35013a; /* Fundo roxo escuro */
-    }
+    #btnVoltar { left: 20px; background-color: #35013a; }
+    #btnFullscreen { right: 20px; background-color: #5a007a; }
+    #btnSairFullscreen { right: 20px; background-color: #ff0055; }
 
-    #btnFullscreen {
-      right: 20px; /* Posicionado à direita */
-      background-color: #5a007a; /* Fundo roxo médio */
-    }
-
-    #btnSairFullscreen {
-      right: 20px; /* Também à direita */
-      background-color: #ff0055; /* Fundo vermelho */
-    }
-
-    /* Estilos para o modo fullscreen */
     body.fullscreen header,
     body.fullscreen .galeria {
-      display: none; /* Esconde cabeçalho e galeria */
+      display: none;
     }
 
     body.fullscreen .main-container,
     body.fullscreen .game-container,
     body.fullscreen iframe {
-      width: 100vw !important; /* Ocupa toda a largura da tela */
-      height: 100vh !important; /* Ocupa toda a altura da tela */
-      border-radius: 0 !important; /* Remove bordas arredondadas */
-      display: block !important; /* Mostra o iframe e containers */
+      width: 100vw !important;
+      height: 100vh !important;
+      border-radius: 0 !important;
+      display: block !important;
     }
 
     /* 🌞 MODO CLARO */
     body.modo-claro {
-      background: white; /* Fundo branco */
-      color: black; /* Texto preto */
+      background: white;
+      color: black;
     }
 
-    body.modo-claro header {
-      background-color: #f0f0f0; /* Fundo claro no cabeçalho */
+    body.modo-claro header { background-color: #f0f0f0; }
+    body.modo-claro .galeria { background-color: #dddddd; }
+    body.modo-claro nav ul li a { color: black; text-shadow: none; }
+    body.modo-claro nav ul li a:hover { color: #a020f0; }
+    body.modo-claro nav ul li a::after { background-color: #a020f0; }
+
+    /* 📱 ESTILO PARA CELULAR */
+    @media (max-width: 768px) {
+      header {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 10px;
+      }
+
+      nav ul {
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .main-container {
+        flex-direction: column;
+      }
+
+      .galeria {
+        width: 100%;
+        flex-direction: row;
+        overflow-x: auto;
+        overflow-y: hidden;
+        gap: 10px;
+        padding: 10px;
+      }
+
+      .galeria a img {
+        width: 160px;
+        height: 100px;
+        object-fit: cover;
+      }
+
+      .game-container {
+        flex: 1;
+        padding: 10px;
+      }
+
+      iframe {
+        width: 100%;
+        height: 70vh;
+      }
+
+      #btnVoltar, #btnFullscreen, #btnSairFullscreen {
+        padding: 8px 14px;
+        font-size: 14px;
+      }
     }
 
-    body.modo-claro .galeria {
-      background-color: #dddddd; /* Fundo cinza claro na galeria */
-    }
+    /* 📱 Tela muito pequena */
+    @media (max-width: 480px) {
+      nav ul li a {
+        font-size: 14px;
+      }
 
-    body.modo-claro nav ul li a {
-      color: black; /* Texto preto nos links */
-      text-shadow: none; /* Remove sombra */
-    }
+      .logo img {
+        width: 70px;
+      }
 
-    body.modo-claro nav ul li a:hover {
-      color: #a020f0; /* Mantém roxo no hover */
+      iframe {
+        height: 60vh;
+      }
     }
-
-    body.modo-claro nav ul li a::after {
-      background-color: #a020f0; /* Linha roxa no hover */
-    }
-
   </style>
 </head>
 <body>
   <header>
     <div class="logo">
-      <!-- Logo clicável para alternar modo claro/escuro -->
       <img id="logoGamePad" src="ChatGPT_Image_12_de_mai._de_2025__08_53_45-removebg-preview.svg" alt="GamePad Logo" />
     </div>
     <nav>
       <ul>
-        <li><a href="index.html">Category Game</a></li> <!-- Link para categoria -->
-        <li><a href="produtos.html">Home</a></li> <!-- Link para home -->
-        <li><a href="undexprogramador.html">Programadores</a></li> <!-- Link para programadores -->
+        <li><a href="index.html">Category Game</a></li>
+        <li><a href="produtos.html">Home</a></li>
+        <li><a href="undexprogramador.html">Programadores</a></li>
       </ul>
     </nav>
   </header>
 
   <div class="main-container" id="mainContainer">
     <div class="galeria" id="galeria">
-      <!-- Lista de jogos com links que abrem no iframe -->
       <a href="intexx.html" target="gameFrame" class="game-link"><img src="450_1000.jpg" alt="Pac-Man" /></a>
       <a href="https://dino-chrome.com/pt#google_vignette" target="gameFrame" class="game-link"><img src="Sugestoes-de-jogo-de-dinossauro.webp" alt="T-Rex Game" /></a>
       <a href="https://ligabloo.github.io/pong-ecsy/" target="gameFrame" class="game-link"><img src="ping-pong-games-ping-pong-fury.jpg" alt="Ping Pong Fury" /></a>
@@ -219,14 +253,11 @@
       <a href="https://fighting-game-in-js.netlify.app/html/index.html" target="gameFrame" class="game-link"><img src="ssssss.jpeg" alt="Luta" /></a>
       <a href="jogo.html" target="gameFrame" class="game-link"><img src="snake.png" alt="Snake" /></a>
       <a href="intethiago.html" target="gameFrame" class="game-link"><img src="71V21L1U9CL.jpg" alt="Luta" /></a>
-      <a href="https://marvelgame.netlify.app/" target="gameFrame" class="game-link"><img src="179769953-6ef0542c-fef8-4de4-a6fa-66ef30391e24.jpg" alt="Luta" /></a>
+      <a href="https://marvelgame.netlify.app/" target="gameFrame" class="game-link"><img src="179769953-6ef0542c-fef8-4de4-a6fa-66ef30391e24.jpg" alt="Marvel" /></a>
     </div>
 
-
     <div class="game-container">
-      <!-- Iframe que exibe os jogos -->
       <iframe id="gameFrame" name="gameFrame" allowfullscreen></iframe>
-      <!-- Botões para controlar o iframe e fullscreen -->
       <button id="btnVoltar">Voltar</button>
       <button id="btnFullscreen">Tela cheia</button>
       <button id="btnSairFullscreen">Sair Tela Cheia</button>
@@ -234,7 +265,6 @@
   </div>
 
   <script>
-    // Referências dos elementos principais
     const galeria = document.getElementById('galeria');
     const iframe = document.getElementById('gameFrame');
     const btnVoltar = document.getElementById('btnVoltar');
@@ -243,49 +273,43 @@
     const links = document.querySelectorAll('.game-link');
     const logo = document.getElementById('logoGamePad');
 
-    // Evento para carregar jogo no iframe ao clicar no link da galeria
     links.forEach(link => {
-      link.addEventListener('click', function (e) {
-        e.preventDefault(); // Previna o comportamento padrão do link
-        iframe.src = this.href; // Define o src do iframe para o link clicado
-        iframe.style.display = 'block'; // Mostra o iframe
-        btnVoltar.style.display = 'inline-block'; // Mostra botão voltar
-        btnFullscreen.style.display = 'inline-block'; // Mostra botão fullscreen
-        btnSairFullscreen.style.display = 'none'; // Esconde botão sair fullscreen
-        document.body.classList.remove('fullscreen'); // Remove classe fullscreen do body
+      link.addEventListener('click', e => {
+        e.preventDefault();
+        iframe.src = link.href;
+        iframe.style.display = 'block';
+        btnVoltar.style.display = 'inline-block';
+        btnFullscreen.style.display = 'inline-block';
+        btnSairFullscreen.style.display = 'none';
+        document.body.classList.remove('fullscreen');
       });
     });
 
-    // Evento do botão Voltar: esconde iframe e botões
     btnVoltar.addEventListener('click', () => {
-      iframe.src = ''; // Remove o src do iframe
-      iframe.style.display = 'none'; // Esconde o iframe
-      btnVoltar.style.display = 'none'; // Esconde botão voltar
-      btnFullscreen.style.display = 'none'; // Esconde botão fullscreen
-      btnSairFullscreen.style.display = 'none'; // Esconde botão sair fullscreen
-      document.body.classList.remove('fullscreen'); // Remove classe fullscreen
+      iframe.src = '';
+      iframe.style.display = 'none';
+      btnVoltar.style.display = 'none';
+      btnFullscreen.style.display = 'none';
+      btnSairFullscreen.style.display = 'none';
     });
 
-    // Evento do botão Tela cheia: ativa modo fullscreen
     btnFullscreen.addEventListener('click', () => {
-      document.body.classList.add('fullscreen'); // Adiciona classe fullscreen
-      btnFullscreen.style.display = 'none'; // Esconde botão fullscreen
-      btnSairFullscreen.style.display = 'inline-block'; // Mostra botão sair fullscreen
+      document.body.classList.add('fullscreen');
+      btnFullscreen.style.display = 'none';
+      btnSairFullscreen.style.display = 'inline-block';
     });
 
-    // Evento do botão Sair Tela Cheia: desativa fullscreen e esconde iframe e botões
     btnSairFullscreen.addEventListener('click', () => {
-      document.body.classList.remove('fullscreen'); // Remove classe fullscreen
-      iframe.src = ''; // Remove src do iframe
-      iframe.style.display = 'none'; // Esconde iframe
-      btnVoltar.style.display = 'none'; // Esconde botão voltar
-      btnFullscreen.style.display = 'none'; // Esconde botão fullscreen
-      btnSairFullscreen.style.display = 'none'; // Esconde botão sair fullscreen
+      document.body.classList.remove('fullscreen');
+      iframe.src = '';
+      iframe.style.display = 'none';
+      btnVoltar.style.display = 'none';
+      btnFullscreen.style.display = 'none';
+      btnSairFullscreen.style.display = 'none';
     });
 
-    // ✅ Alternar modo claro/escuro ao clicar no logo
     logo.addEventListener('click', () => {
-      document.body.classList.toggle('modo-claro'); // Alterna classe modo-claro no body
+      document.body.classList.toggle('modo-claro');
     });
   </script>
 </body>
