@@ -1,0 +1,86 @@
+@font-face {
+  font-family: 'pixel';
+  src: url(PublicPixel.ttf);
+}
+
+p {
+  font-family: pixel;
+  font-size: 20px;
+  color: #FF68DF;
+}
+
+h1 {
+  font-family: pixel;
+  font-size: 30px;
+  color: #FF68DF;
+}
+
+body {
+  background-image: url(hearts.jpg);
+  font-family: Arial, sans-serif;
+  text-align: center;
+  margin: 0;
+  padding: 0;
+}
+
+#game-container {
+  position: relative;
+  width: 300px;
+  height: 300px;
+  margin: 30px auto;
+  background-color: #FFD6EA;
+  border: 2px solid #DA70B0;
+  border-radius: 15px;
+}
+
+.layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.controls label {
+  margin: 0 5px;
+  display: inline-block;
+}
+
+.controls {
+  margin-top: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 15px;
+}
+
+.seletor {
+  position: relative;
+  display: inline-block;
+}
+
+.seletor img {
+  width: 160px;
+  height: 160px;
+  cursor: pointer;
+  border-radius: 10px;
+  transition: 0.2s;
+  border: 2px solid transparent;
+}
+
+.seletor img:hover {
+  border-color: #ff66a3;
+  background-color: #FFAEDB;
+  transform: scale(1.05);
+}
+
+.seletor select {
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  width: 160px;
+  height: 160px;
+  cursor: pointer;
+}

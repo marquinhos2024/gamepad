@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="kitty.css">
+  <link rel="icon" type="image/x-icon" href="favicon.png">
+  <title>Chibi Game</title>
+</head>
+
+<body>
+  <h1>Chibi Game</h1>
+  
+<audio id="bgm" autoplay loop muted>
+  <source src="8bit.mp3" type="audio/mpeg">
+  Seu navegador não suporta áudio.
+</audio>
+
+
+  <div id="game-container">
+    <!-- CORPO -->
+    <img src="body.png" class="layer body" style="display: none;">
+    <img src="body2.png" class="layer body" style="display: none;">
+
+    <!-- CABELO -->
+    <img src="cabelo1.png" class="layer cabelo" style="display: none;">
+    <img src="cabelo2.png" class="layer cabelo" style="display: none;">
+    <img src="cabelo3.png" class="layer cabelo" style="display: none;">
+
+    <!-- ROUPA -->
+    <img src="roupa1.png" class="layer roupa" style="display: none;">
+    <img src="roupa2.png" class="layer roupa" style="display: none;">
+    <img src="roupa3.png" class="layer roupa" style="display: none;">
+
+    <!-- CALÇA -->
+    <img src="calca1.png" class="layer calca" style="display: none;">
+    <img src="calca2.png" class="layer calca" style="display: none;">
+
+    <!-- MEIA -->
+    <img src="meia1.png" class="layer meia" style="display: none;">
+    <img src="meia2.png" class="layer meia" style="display: none;">
+
+    <!-- SAPATO -->
+    <img src="" class="layer sapato" style="display: none;">
+    <img src="sapato1.png" class="layer sapato" style="display: none;">
+    <img src="sapato2.png" class="layer sapato" style="display: none;">
+    <img src="sapato3.png" class="layer sapato" style="display: none;">
+  </div>
+
+  <div class="controls">
+    <div class="seletor">
+      <img src="icobody.png" alt="Ícone Corpo">
+      <select onchange="trocar('body', this.value)">
+        <option value="">Nenhuma</option>
+        <option value="body.png">Branca</option>
+        <option value="body2.png">Morena</option>
+      </select>
+    </div>
+
+    <div class="seletor">
+      <img src="icohair.png" alt="Ícone Cabelo">
+      <select onchange="trocar('cabelo', this.value)">
+        <option value="">Nenhuma</option>
+        <option value="cabelo1.png">Cabelo 1</option>
+        <option value="cabelo2.png">Cabelo 2</option>
+        <option value="cabelo3.png">Cabelo 3</option>
+      </select>
+    </div>
+
+    <div class="seletor">
+      <img src="icoclothes.png" alt="Ícone Roupa">
+      <select onchange="trocar('roupa', this.value)">
+        <option value="">Nenhuma</option>
+        <option value="roupa1.png">Roupa 1</option>
+        <option value="roupa2.png">Roupa 2</option>
+        <option value="roupa3.png">Roupa 3</option>
+      </select>
+    </div>
+
+    <div class="seletor">
+      <img src="icopants.png" alt="Ícone Calça">
+      <select onchange="trocar('calca', this.value)">
+        <option value="">Nenhuma</option>
+        <option value="calca1.png">Calça 1</option>
+        <option value="calca2.png">Calça 2</option>
+      </select>
+    </div>
+
+    <div class="seletor">
+      <img src="icosocks.png" alt="Ícone Meia">
+      <select onchange="trocar('meia', this.value)">
+        <option value="">Nenhuma</option>
+        <option value="meia1.png">Meia 1</option>
+        <option value="meia2.png">Meia 2</option>
+      </select>
+    </div>
+
+    <div class="seletor">
+      <img src="icoshoes.png" alt="Ícone Sapato">
+      <select onchange="trocar('sapato', this.value)">
+        <option value="">Nenhuma</option>
+        <option value="sapato1.png">Sapato 1</option>
+        <option value="sapato2.png">Sapato 2</option>
+        <option value="sapato3.png">Sapato 3</option>
+      </select>
+    </div>
+  </div>
+  
+  <script>
+  window.addEventListener('click', function () {
+    const bgm = document.getElementById('bgm');
+    bgm.muted = false; // ativa o som
+    bgm.play();        // garante que comece a tocar
+  }, { once: true });
+</script>
+
+  <script src="kitty.js"></script>
+</body>
+</html>
